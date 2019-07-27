@@ -6,7 +6,8 @@ const passport = require('passport');
 const flash = require('connect-flash');
 const app = express();
 const path = require('path');
-
+const mongoose = require('mongoose');
+require('dotenv').config();
 const { trafficCounter } = require('./services/traffic');
 
 app.use(cookieParser());
@@ -14,22 +15,21 @@ app.use(bodyParser.json());
 app.use(
   cookieSession({
     maxAge: 30 * 24 * 60 * 60 * 1000,
-    keys: ['cookie secret shhhh']
+    keys: [process.env.COOKIE_SECRET]
   })
 );
 app.use(passport.initialize());
 app.use(passport.session());
 app.use(flash());
 
-const TEST_PRODUCTION = true;
+mongoose.connect(process.env.DB_CONNECTION_STRING);
+require('./services/Authentication')(app);
 
+const TEST_PRODUCTION = true;
 if (process.env.NODE_ENV === 'production' || TEST_PRODUCTION) {
   app.use(express.static('client/build'));
   app.use(express.static('admin/build'));
   app.use(express.static('404'));
-
-  require('./services/Authentication')(app);
-  require('./Routes/userRoutes')(app);
 
   app.get('/', (req, res) => {
     trafficCounter(req);
