@@ -39,6 +39,9 @@ if (process.env.NODE_ENV === 'production' || TEST_PRODUCTION) {
     res.sendFile(path.resolve(__dirname, 'admin', 'build', 'index.html'));
   });
 
+  app.get('/forbidden', (req, res) => {
+    res.sendFile(path.join(__dirname + '/403/index.html'));
+  });
   app.get('*', (req, res) => {
     res.sendFile(path.join(__dirname + '/404/index.html'));
   });

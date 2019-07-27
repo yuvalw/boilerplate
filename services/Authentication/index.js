@@ -67,6 +67,7 @@ module.exports = app => {
       res.send({ success: true, user: meta });
     }
   );
+
   app.get('/api/failLogIn', (req, res) => {
     res.send({ success: false });
   });
