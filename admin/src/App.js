@@ -13,7 +13,7 @@ const App = observer(({ appState }) => {
 
   const isuserLogged = async () => {
     try {
-      const res = await axios('api/admin/currentUser');
+      const res = await axios('/api/admin/currentUser');
       res.data.success && appState.login(res.data.user);
     } catch (error) {
       console.log(error);
@@ -33,13 +33,13 @@ const App = observer(({ appState }) => {
         <CssBaseline />
         {appState.isAuth && (
           <Route
-            path="/"
+            path="/admin"
             render={props => <Home {...props} user={appState} />}
           />
         )}
         {!appState.isAuth && (
           <Route
-            path="/"
+            path="/admin"
             render={props => <LoginPage {...props} user={appState} />}
           />
         )}

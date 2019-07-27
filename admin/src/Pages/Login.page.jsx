@@ -60,7 +60,7 @@ const SignIn = observer(props => {
       return;
     }
     axios
-      .post('api/admin/login', { username, password })
+      .post('/api/admin/login', { username, password })
       .then(({ data }) => {
         if (data.success) {
           props.user.login(data.user);

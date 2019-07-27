@@ -119,8 +119,9 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 
-const Home = observer((props, { user }) => {
+const Home = observer(props => {
   const classes = useStyles();
+  const { user } = props;
   const [open, setOpen] = useState(true);
   const [activePage, setActivePage] = useState('');
 
@@ -132,19 +133,22 @@ const Home = observer((props, { user }) => {
   };
 
   const handleLogout = () => {
+    props.history.push(`/admin`);
     user.logout();
   };
 
   useEffect(() => {
-    handleNavigation(pages.dashboard);
+    const path = props.location.pathname.split('/')[2];
+    if (!pages[path]) handleNavigation(pages.dashboard);
+    else setActivePage(pages[path]);
   }, []);
 
   const handleNavigation = page => {
-    props.history.push(`/${page}`);
+    props.history.push(`/admin/${page}`);
     setActivePage(page);
   };
   const getPageTitle = () => {
-    const path = props.location.pathname.split('/')[1];
+    const path = props.location.pathname.split('/')[2];
     return pageTitleMap[path];
   };
   return (
@@ -253,8 +257,8 @@ const Home = observer((props, { user }) => {
       <main className={classes.content}>
         <div className={classes.appBarSpacer} />
         <Container maxWidth="lg" className={classes.container}>
-          <Route path="/dashboard" component={Dashboard} />
-          <Route path="/orders" component={Orders} />
+          <Route path="/admin/dashboard" component={Dashboard} />
+          <Route path="/admin/orders" component={Orders} />
         </Container>
       </main>
     </div>
