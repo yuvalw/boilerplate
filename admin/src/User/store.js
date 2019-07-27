@@ -1,4 +1,5 @@
 import { observable, action } from 'mobx';
+import { logout } from './actions';
 
 const userState = observable({
   user: null,
@@ -8,6 +9,7 @@ const userState = observable({
     userState.isAuth = true;
   }),
   logout: action(() => {
+    logout();
     userState.user = null;
     userState.isAuth = false;
   })
