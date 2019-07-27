@@ -57,6 +57,10 @@ module.exports = app => {
     req.logout();
     res.send('logged out');
   });
+  app.post('/api/admin/logout', requireAuth, (req, res) => {
+    req.logout();
+    res.send('logged out');
+  });
   app.get('/api/currentUser', requireAuth, ({ user: { meta } }, res) => {
     res.send({ success: true, user: meta });
   });
